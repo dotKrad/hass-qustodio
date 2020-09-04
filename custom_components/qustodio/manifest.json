@@ -1,0 +1,12 @@
+{
+  "domain": "qustodio",
+  "name": "Qustodio",
+  "documentation": "https://github.com/custom-components/blueprint",
+  "dependencies": [],
+  "config_flow": true,
+  "codeowners": [
+    "@dotkrad"
+  ],
+  "requirements": [],
+  "homeassistant": "0.96.0"
+}

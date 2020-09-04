@@ -1,0 +1,21 @@
+{
+    "config": {
+        "title": "Qustodio",
+        "step": {
+            "user": {
+                "title": "Qustodio",
+                "description": "If you need help with the configuration have a look here: https://github.com/dotKrad/hass-qustodio",
+                "data": {
+                    "username": "Username",
+                    "password": "Password"
+                }
+            }
+        },
+        "error": {
+            "auth": "Username/Password is wrong."
+        },
+        "abort": {
+            "single_instance_allowed": "Only a single configuration of Qustodio is allowed."
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "config": {
+        "title": "Qustodio",
+        "step": {
+            "user": {
+                "title": "Qustodio",
+                "description": "Hvis du trenger hjep til konfigurasjon ta en titt her: https://github.com/dotKrad/hass-qustodio",
+                "data": {
+                    "username": "Brukernavn",
+                    "password": "Passord"
+                }
+            }
+        },
+        "error": {
+            "auth": "Brukernavn/Passord er feil."
+        },
+        "abort": {
+            "single_instance_allowed": "Du kan konfigurere Qustodio kun en gang."
+        }
+    }
+}
