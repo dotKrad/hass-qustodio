@@ -3,7 +3,6 @@ import aiohttp
 from collections import OrderedDict
 
 import voluptuous as vol
-from sampleclient.client import Client
 from homeassistant import config_entries
 
 
