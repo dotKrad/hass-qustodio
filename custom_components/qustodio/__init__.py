@@ -10,7 +10,6 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import discovery
 from homeassistant.util import Throttle
 
-from sampleclient.client import Client
 from integrationhelper.const import CC_STARTUP_VERSION
 
 from .const import (
