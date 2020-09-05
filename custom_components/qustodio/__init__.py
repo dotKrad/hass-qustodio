@@ -10,8 +10,6 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import discovery
 from homeassistant.util import Throttle
 
-from integrationhelper.const import CC_STARTUP_VERSION
-
 from .const import (
     CONF_ENABLED,
     CONF_NAME,
@@ -69,11 +67,6 @@ async def async_setup_entry(hass, config_entry):
                 hass.config_entries.async_remove(config_entry.entry_id)
             )
         return False
-
-    # Print startup message
-    _LOGGER.info(
-        CC_STARTUP_VERSION.format(name=DOMAIN, version=VERSION, issue_link=ISSUE_URL)
-    )
 
     # Check that all required files are present
     file_check = await check_files(hass)
