@@ -3,7 +3,7 @@ import logging
 import async_timeout
 import aiohttp
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from .const import LOGIN_RESULT_OK, LOGIN_RESULT_UNAUTHORIZED
 
@@ -17,7 +17,7 @@ URL_RULES = "https://api.qustodio.com/v1/accounts/{}/profiles/{}/rules?app_rules
 URL_SUMARY = "https://api.qustodio.com/v1/accounts/{}/profiles/{}/summary"
 URL_DEVICES = "https://api.qustodio.com/v1/accounts/{}/devices"
 URL_HOURLY_SUMARY = (
-    "https://api.qustodio.com/v2/accounts/{}/profiles/{}/summary_hourly?date=2020-09-04"
+    "https://api.qustodio.com/v2/accounts/{}/profiles/{}/summary_hourly?date={}"
 )
 
 
@@ -144,7 +144,7 @@ class QustodioApi(object):
                 async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                     response = await self._session.get(
                         URL_HOURLY_SUMARY.format(
-                            self._account_uid, p["uid"], datetime.today()
+                            self._account_uid, p["uid"], date.today()
                         ),
                         headers=headers,
                     )
