@@ -16,6 +16,9 @@ URL_PROFILES = "https://api.qustodio.com/v1/accounts/{}/profiles/"
 URL_RULES = "https://api.qustodio.com/v1/accounts/{}/profiles/{}/rules?app_rules=1"
 URL_SUMARY = "https://api.qustodio.com/v1/accounts/{}/profiles/{}/summary"
 URL_DEVICES = "https://api.qustodio.com/v1/accounts/{}/devices"
+URL_HOURLY_SUMARY = (
+    "https://api.qustodio.com/v2/accounts/{}/profiles/{}/summary_hourly?date=2020-09-04"
+)
 
 
 class QustodioApi(object):
@@ -130,12 +133,27 @@ class QustodioApi(object):
                 js = json.loads(await response.text())
                 p["quota"] = js["time_restrictions"]["quotas"][dow]
 
+                # async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+                #    response = await self._session.get(
+                #        URL_SUMARY.format(self._account_id, p["id"]), headers=headers
+                #    )
+                # js = json.loads(await response.text())
+                # p["time"] = js[0]["total"]
+
+                # Get Hourly Summary
                 async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                     response = await self._session.get(
-                        URL_SUMARY.format(self._account_id, p["id"]), headers=headers
+                        URL_HOURLY_SUMARY.format(
+                            self._account_uid, p["uid"], datetime.today()
+                        ),
+                        headers=headers,
                     )
                 js = json.loads(await response.text())
-                p["time"] = js[0]["total"]
+
+                time = 0
+                for entry in js:
+                    time = time + entry["screen_time_seconds"]
+                p["time"] = time / 60
 
                 data[p["id"]] = p
 

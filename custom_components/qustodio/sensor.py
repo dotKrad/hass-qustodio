@@ -88,9 +88,9 @@ class QustodioSensor(Entity):
     def icon(self):
         """Return the icon of the sensor."""
         if (
-            # "time" in self.attr
+            "time" in self.attr
             "quota" in self.attr
-            and self.state < self.attr["quota"]
+            and self.attr["time"] < self.attr["quota"]
         ):
             return ICON_IN_TIME
         return ICON_NO_TIME
