@@ -92,6 +92,7 @@ class QustodioApi(object):
                 self._account_uid = js["uid"]
 
             # devices
+            _LOGGER.info(f"Getting devices")
             async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                 response = await self._session.get(
                     URL_DEVICES.format(self._account_id), headers=headers
@@ -103,6 +104,7 @@ class QustodioApi(object):
             for device in js:
                 devices[device["id"]] = device
 
+            _LOGGER.info(f"Getting profiles")
             async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                 response = await self._session.get(
                     URL_PROFILES.format(self._account_id), headers=headers
@@ -114,11 +116,20 @@ class QustodioApi(object):
             dow = days[datetime.today().weekday()]
 
             for profile in js:
+                _LOGGER.info(f"Profiles: {profile['name']}")
                 p = {}
                 p["id"] = profile["id"]
                 p["uid"] = profile["uid"]
                 p["name"] = profile["name"]
                 p["is_online"] = profile["status"]["is_online"]
+                p["unauthorized_remove"] = False
+                p["device_tampered"] = None
+
+                for device_id in profile["device_ids"]:
+                    unauthorized = devices[device_id]["alerts"]["unauthorized_remove"]
+                    if unauthorized == True:
+                        p["unauthorized_remove"] = True
+                        p["device_tampered"] = devices[device_id]["name"]
 
                 device_id = profile["status"]["location"]["device"]
                 if p["is_online"]:
@@ -126,6 +137,7 @@ class QustodioApi(object):
                 else:
                     p["current_device"] = None
 
+                _LOGGER.info(f"Getting rules")
                 async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                     response = await self._session.get(
                         URL_RULES.format(self._account_id, p["id"]), headers=headers
@@ -141,6 +153,7 @@ class QustodioApi(object):
                 # p["time"] = js[0]["total"]
 
                 # Get Hourly Summary
+                _LOGGER.info(f"Getting hourly summary")
                 async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                     response = await self._session.get(
                         URL_HOURLY_SUMARY.format(

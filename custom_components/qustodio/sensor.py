@@ -60,6 +60,8 @@ class QustodioSensor(Entity):
             self.attr["current_device"] = data["current_device"]
             self.attr["is_online"] = data["is_online"]
             self.attr["quota"] = data["quota"]
+            self.attr["unauthorized_remove"] = data["unauthorized_remove"]
+            self.attr["device_tampered"] = data["device_tampered"]
 
     @property
     def unique_id(self):
