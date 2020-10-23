@@ -89,6 +89,11 @@ async def async_setup_entry(hass, config_entry):
         hass.config_entries.async_forward_entry_setup(config_entry, "sensor")
     )
 
+    # Add device tracker
+    hass.async_add_job(
+        hass.config_entries.async_forward_entry_setup(config_entry, "device_tracker")
+    )
+
     return True
 
 

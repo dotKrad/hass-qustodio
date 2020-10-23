@@ -137,6 +137,12 @@ class QustodioApi(object):
                 else:
                     p["current_device"] = None
 
+                p["latitude"] = profile["status"]["location"]["latitude"]
+                p["longitude"] = profile["status"]["location"]["longitude"]
+                p["accuracy"] = profile["status"]["location"]["accuracy"]
+
+                p["lastseen"] = profile["status"]["lastseen"]
+
                 _LOGGER.info(f"Getting rules")
                 async with async_timeout.timeout(TIMEOUT, loop=self._loop):
                     response = await self._session.get(

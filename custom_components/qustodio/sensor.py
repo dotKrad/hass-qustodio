@@ -28,8 +28,12 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
     """Setup sensor platform."""
     profiles = config_entry.data.get("profiles")
 
+    sensors = []
+
     for profile_id in profiles:
-        async_add_devices([QustodioSensor(hass, profiles[profile_id])], True)
+        sensors.append(QustodioSensor(hass, profiles[profile_id]))
+
+    async_add_devices(sensors, True)
 
 
 class QustodioSensor(Entity):
