@@ -74,16 +74,17 @@ class QustodioTrackerEntity(TrackerEntity):
 
         # Get new data (if any)
         if "data" in self.hass.data[DOMAIN_DATA]:
-            data = self.hass.data[DOMAIN_DATA]["data"][self._id]
+            if self._id in self.hass.data[DOMAIN_DATA]["data"]:
+                data = self.hass.data[DOMAIN_DATA]["data"][self._id]
 
-            self._state = data["time"]
+                self._state = data["time"]
 
-            # Set/update attributes
-            self.attr["attribution"] = ATTRIBUTION
-            self._latitude = data["latitude"]
-            self._longitude = data["longitude"]
-            self._accuracy = data["accuracy"]
-            self.attr["last_seen"] = data["lastseen"]
+                # Set/update attributes
+                self.attr["attribution"] = ATTRIBUTION
+                self._latitude = data["latitude"]
+                self._longitude = data["longitude"]
+                self._accuracy = data["accuracy"]
+                self.attr["last_seen"] = data["lastseen"]
 
     @property
     def unique_id(self) -> str:
