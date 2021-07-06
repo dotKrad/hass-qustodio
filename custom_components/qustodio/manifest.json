@@ -8,5 +8,6 @@
     "@dotkrad"
   ],
   "requirements": [],
-  "homeassistant": "0.96.0"
+  "homeassistant": "0.96.0",
+  "version": "0.0.1"
 }
