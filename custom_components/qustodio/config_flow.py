@@ -34,7 +34,7 @@ class BlueprintFlowHandler(config_entries.ConfigFlow):
         if user_input is not None:
             result = await self._show_config_form(user_input)
 
-            api = QustodioApi(user_input["username"], user_input["password"], None)
+            api = QustodioApi(user_input["username"], user_input["password"])
             valid = await api.login()
 
             if valid == LOGIN_RESULT_OK:

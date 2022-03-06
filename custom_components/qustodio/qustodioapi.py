@@ -22,11 +22,10 @@ URL_HOURLY_SUMARY = (
 
 
 class QustodioApi(object):
-    def __init__(self, username, password, loop):
+    def __init__(self, username, password):
         """Initialize the data retrieval. Session should have BasicAuth flag set."""
         self._username = username
         self._password = password
-        self._loop = loop
         self._session = None
 
         self._access_token = None
@@ -55,7 +54,7 @@ class QustodioApi(object):
         data["username"] = self._username
         data["password"] = self._password
 
-        async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+        async with async_timeout.timeout(TIMEOUT):
             response = await session.post(URL_LOGIN, data=data)
 
         if response.reason == "Unauthorized":
@@ -83,7 +82,7 @@ class QustodioApi(object):
 
             headers = {"Authorization": f"Bearer {self._access_token}"}
 
-            async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+            async with async_timeout.timeout(TIMEOUT):
                 response = await self._session.get(URL_ACCOUNT, headers=headers)
 
             if response.status == 200:
@@ -93,7 +92,7 @@ class QustodioApi(object):
 
             # devices
             _LOGGER.info(f"Getting devices")
-            async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+            async with async_timeout.timeout(TIMEOUT):
                 response = await self._session.get(
                     URL_DEVICES.format(self._account_id), headers=headers
                 )
@@ -105,7 +104,7 @@ class QustodioApi(object):
                 devices[device["id"]] = device
 
             _LOGGER.info(f"Getting profiles")
-            async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+            async with async_timeout.timeout(TIMEOUT):
                 response = await self._session.get(
                     URL_PROFILES.format(self._account_id), headers=headers
                 )
@@ -144,7 +143,7 @@ class QustodioApi(object):
                 p["lastseen"] = profile["status"]["lastseen"]
 
                 _LOGGER.info(f"Getting rules")
-                async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+                async with async_timeout.timeout(TIMEOUT):
                     response = await self._session.get(
                         URL_RULES.format(self._account_id, p["id"]), headers=headers
                     )
@@ -160,7 +159,7 @@ class QustodioApi(object):
 
                 # Get Hourly Summary
                 _LOGGER.info(f"Getting hourly summary")
-                async with async_timeout.timeout(TIMEOUT, loop=self._loop):
+                async with async_timeout.timeout(TIMEOUT):
                     response = await self._session.get(
                         URL_HOURLY_SUMARY.format(
                             self._account_uid, p["uid"], date.today()

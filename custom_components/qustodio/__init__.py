@@ -81,7 +81,7 @@ async def async_setup_entry(hass, config_entry):
     password = config_entry.data.get(CONF_PASSWORD)
 
     # Configure the client.
-    client = QustodioApi(username, password, hass.loop)
+    client = QustodioApi(username, password)
     hass.data[DOMAIN_DATA]["client"] = QustodioData(hass, client)
 
     # Add sensor
